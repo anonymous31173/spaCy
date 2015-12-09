@@ -184,17 +184,20 @@ def run_setup(exts):
         cmdclass = {'build_ext': build_ext_subclass },
     )
 
-    import headers_workaround
+    # import headers_workaround
 
-    headers_workaround.fix_venv_pypy_include()
-    headers_workaround.install_headers('murmurhash')
-    headers_workaround.install_headers('numpy')
+    # headers_workaround.fix_venv_pypy_include()
+    # headers_workaround.install_headers('murmurhash')
+    # headers_workaround.install_headers('numpy')
 
 
 VERSION = '0.100'
 def main(modules, is_pypy):
     language = "cpp"
     includes = ['.', path.join(sys.prefix, 'include')]
+    import murmurhash
+    includes.append(os.path.join(os.path.dirname(murmurhash.__file__), 'headers'))
+
     if sys.platform.startswith('darwin'):
         compile_options['other'].append('-mmacosx-version-min=10.8')
         compile_options['other'].append('-stdlib=libc++')
